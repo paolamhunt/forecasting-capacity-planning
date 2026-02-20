@@ -7,7 +7,7 @@ import pandas as pd
 
 from fcp.metrics import mae, smape
 from fcp.models import SeasonalNaiveConfig, SeasonalNaiveForecaster
-
+from fcp.planning import PlanningConfig, evaluate_capacity_cost, recommend_capacity
 
 @dataclass(frozen=True)
 class BacktestConfig:
@@ -23,6 +23,9 @@ class BacktestResult:
     horizon: int
     mae: float
     smape: float
+    recommended_capacity: int
+    planning_cost: float
+
 
 
 def rolling_origin_backtest(
@@ -30,7 +33,12 @@ def rolling_origin_backtest(
     freq: str,
     cfg: BacktestConfig,
     model_factory: Callable[[], SeasonalNaiveForecaster],
+    service_level: float,
+    units_per_capacity: float,
+    over_capacity_cost: float,
+    under_capacity_cost: float,
 ) -> list[BacktestResult]:
+
     """
     Rolling-origin evaluation.
 
@@ -83,6 +91,18 @@ def rolling_origin_backtest(
             test_clean = test
             preds_clean = preds
 
+        # Planning evaluation: forecast -> capacity -> cost vs actual demand
+        p_cfg = PlanningConfig(
+            service_level=service_level,
+            units_per_capacity=units_per_capacity,
+            over_capacity_cost=over_capacity_cost,
+            under_capacity_cost=under_capacity_cost,
+        )
+        rec = recommend_capacity(preds_clean, p_cfg)
+        recommended_capacity = int(rec["recommended_capacity"].iloc[0])
+        planning_cost = evaluate_capacity_cost(test_clean, recommended_capacity, p_cfg)
+
+
         results.append(
             BacktestResult(
                 fold=fold,
@@ -90,6 +110,9 @@ def rolling_origin_backtest(
                 horizon=cfg.horizon,
                 mae=mae(test_clean, preds_clean),
                 smape=smape(test_clean, preds_clean),
+                recommended_capacity=recommended_capacity,
+                planning_cost=planning_cost,
+
             )
         )
 

@@ -39,15 +39,33 @@ def main() -> None:
     season_length = int(cfg.get("models", {}).get("seasonal_naive", {}).get("season_length", 7))
     model_factory = build_seasonal_naive_factory(season_length=season_length)
 
-    results = rolling_origin_backtest(y=y, freq=data_cfg.freq, cfg=bt_cfg, model_factory=model_factory)
-
+    p_cfg_raw = cfg.get("planning", {})
+    results = rolling_origin_backtest(
+        y=y,
+        freq=data_cfg.freq,
+        cfg=bt_cfg,
+        model_factory=model_factory,
+        service_level=float(p_cfg_raw["service_level"]),
+        units_per_capacity=float(p_cfg_raw["units_per_capacity"]),
+        over_capacity_cost=float(p_cfg_raw["over_capacity_cost"]),
+        under_capacity_cost=float(p_cfg_raw["under_capacity_cost"]),
+    )
+ 
     # Summarize
     avg_mae = mean(r.mae for r in results)
     avg_smape = mean(r.smape for r in results)
+    avg_planning_cost = mean(r.planning_cost for r in results)
 
     # Pretty table for markdown
     rows = [
-        {"fold": r.fold, "cutoff": r.cutoff.date().isoformat(), "mae": round(r.mae, 3), "sMAPE(%)": round(r.smape, 3)}
+        {
+            "fold": r.fold,
+            "cutoff": r.cutoff.date().isoformat(),
+            "mae": round(r.mae, 3),
+            "sMAPE(%)": round(r.smape, 3),
+            "recommended_capacity": r.recommended_capacity,
+            "planning_cost": round(r.planning_cost, 3),
+        }
         for r in results
     ]
     df = pd.DataFrame(rows)
@@ -56,6 +74,7 @@ def main() -> None:
     print(df.to_string(index=False))
     print(f"\nAverage MAE: {avg_mae:.3f}")
     print(f"Average sMAPE(%): {avg_smape:.3f}")
+    print(f"Average planning cost: {avg_planning_cost:.3f}")
 
     # Write to docs/results.md
     results_path = _ensure_docs_results_file()
@@ -66,6 +85,7 @@ def main() -> None:
     md.append(f"- Season length: **{season_length}**\n")
     md.append(f"- Average MAE: **{avg_mae:.3f}**\n")
     md.append(f"- Average sMAPE(%): **{avg_smape:.3f}**\n\n")
+    md.append(f"- Average planning cost: **{avg_planning_cost:.3f}**\n")
     md.append(df.to_markdown(index=False))
     md.append("\n")
 
