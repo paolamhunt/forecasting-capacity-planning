@@ -73,3 +73,18 @@
 |      8 | 2024-05-18 | 3.286 |      1.832 |
 
 
+## Capacity Recommendation (from latest horizon forecast)
+
+- Model: **Seasonal Naive** (season_length=7)
+
+- Horizon: **14** D-steps
+
+- Service level target: **p90**
+
+
+
+|   demand_p90 |   units_per_capacity |   recommended_capacity |   over_capacity_cost |   under_capacity_cost |
+|-------------:|---------------------:|-----------------------:|---------------------:|----------------------:|
+|        212.9 |                   20 |                     11 |                    1 |                     3 |
+
+

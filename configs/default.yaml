@@ -17,3 +17,10 @@ models:
 metrics:
   # For now we compute MAE and sMAPE (simple, understandable)
   enabled: ["mae", "smape"]
+
+planning:
+  service_level: 0.90
+  units_per_capacity: 20.0
+  over_capacity_cost: 1.0
+  under_capacity_cost: 3.0
+
