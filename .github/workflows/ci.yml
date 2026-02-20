@@ -22,9 +22,8 @@ jobs:
           python -m pip install -U pip
           python -m pip install -e ".[dev]"
 
-            - name: Lint
-              run: PYTHONPATH=src ruff check .
+      - name: Lint
+        run: PYTHONPATH=src ruff check .
 
-            - name: Run tests
-              run: PYTHONPATH=src pytest -q
-
+      - name: Run tests
+        run: PYTHONPATH=src pytest -q
