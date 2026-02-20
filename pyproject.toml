@@ -7,6 +7,8 @@ requires-python = ">=3.11"
 dependencies = [
   "pandas>=2.0",
   "numpy>=1.26",
+  "pyyaml>=6.0",
+  "tabulate>=0.9.0",
 ]
 
 [project.optional-dependencies]
@@ -22,3 +24,13 @@ testpaths = ["tests"]
 [tool.ruff]
 line-length = 100
 target-version = "py311"
+
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]

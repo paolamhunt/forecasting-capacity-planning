@@ -1,5 +1,6 @@
 VENV := .venv
-PY := $(VENV)/bin/python
+PY := PYTHONPATH=src $(VENV)/bin/python
+
 
 .PHONY: venv install test lint backtest plan
 

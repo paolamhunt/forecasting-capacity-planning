@@ -1,12 +1,19 @@
 data:
-  source: "sample"
+  # We'll store a small committed sample dataset at data/sample/demand.csv
+  path: "data/sample/demand.csv"
+  date_col: "ds"
+  target_col: "y"
+  freq: "D"
 
 backtest:
-  horizon: 14
-  step: 7
-  min_train_points: 180
+  horizon: 14         # forecast 14 days ahead
+  step: 7             # advance the cutoff by 7 days each fold
+  min_train_points: 90
 
-planning:
-  service_level: 0.90
-  over_capacity_cost: 1.0
-  under_capacity_cost: 3.0
+models:
+  seasonal_naive:
+    season_length: 7  # weekly seasonality for daily data
+
+metrics:
+  # For now we compute MAE and sMAPE (simple, understandable)
+  enabled: ["mae", "smape"]
