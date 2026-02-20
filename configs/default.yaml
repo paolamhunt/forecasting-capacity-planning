@@ -1,0 +1,12 @@
+data:
+  source: "sample"
+
+backtest:
+  horizon: 14
+  step: 7
+  min_train_points: 180
+
+planning:
+  service_level: 0.90
+  over_capacity_cost: 1.0
+  under_capacity_cost: 3.0
