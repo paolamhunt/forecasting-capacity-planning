@@ -41,3 +41,19 @@ make install
 make test
 make backtest
 make plan
+```
+
+## Latest Results (Baseline)
+
+This project evaluates not just forecast accuracy, but the downstream planning cost of capacity decisions.
+
+Run:
+```bash
+make backtest
+```
+This command appends results to docs/results.md including:
+
+- Rolling-origin backtest metrics (MAE, sMAPE)
+- Recommended capacity per fold
+- Planning cost per fold
+- Service-level sensitivity sweep (p70/p80/p90/p95)
