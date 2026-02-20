@@ -115,3 +115,47 @@
 |      8 | 2024-05-18 | 3.286 |      1.832 |                     11 |              20 |
 
 
+## Rolling-Origin Backtest – Seasonal Naive Baseline
+
+- Horizon: **14**
+
+- Step: **7**
+
+- Season length: **7**
+
+- Service level target: **p90**
+
+- Units per capacity: **20.0**
+
+- Average MAE: **3.295**
+
+- Average sMAPE(%): **1.920**
+
+- Average planning cost: **19.250**
+
+
+|   fold | cutoff     |   mae |   sMAPE(%) |   recommended_capacity |   planning_cost |
+|-------:|:-----------|------:|-----------:|-----------------------:|----------------:|
+|      1 | 2024-03-30 | 3.357 |      2.044 |                     10 |              18 |
+|      2 | 2024-04-06 | 3.286 |      1.974 |                     10 |              18 |
+|      3 | 2024-04-13 | 3.286 |      1.933 |                     10 |              17 |
+|      4 | 2024-04-20 | 3.071 |      1.816 |                     10 |              18 |
+|      5 | 2024-04-27 | 3.286 |      1.905 |                     10 |              19 |
+|      6 | 2024-05-04 | 3.429 |      1.959 |                     11 |              23 |
+|      7 | 2024-05-11 | 3.357 |      1.895 |                     11 |              21 |
+|      8 | 2024-05-18 | 3.286 |      1.832 |                     11 |              20 |
+
+
+## Service-Level Sensitivity (Cost Tradeoff)
+
+How planning cost changes as we increase the service level target (higher service level typically increases capacity and reduces under-capacity penalties).
+
+
+|   service_level |   avg_capacity |   avg_mae |   avg_sMAPE(%) |   avg_planning_cost |
+|----------------:|---------------:|----------:|---------------:|--------------------:|
+|            0.7  |           9.5  |     3.295 |           1.92 |               21    |
+|            0.8  |          10.12 |     3.295 |           1.92 |               19.25 |
+|            0.9  |          10.38 |     3.295 |           1.92 |               19.25 |
+|            0.95 |          10.38 |     3.295 |           1.92 |               19.25 |
+
+
