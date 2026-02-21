@@ -8,6 +8,7 @@ Requires-Dist: pandas>=2.0
 Requires-Dist: numpy>=1.26
 Requires-Dist: pyyaml>=6.0
 Requires-Dist: tabulate>=0.9.0
+Requires-Dist: scikit-learn>=1.4
 Provides-Extra: dev
 Requires-Dist: pytest>=8.0; extra == "dev"
 Requires-Dist: ruff>=0.6; extra == "dev"
@@ -55,3 +56,19 @@ make install
 make test
 make backtest
 make plan
+```
+
+## Latest Results (Baseline)
+
+This project evaluates not just forecast accuracy, but the downstream planning cost of capacity decisions.
+
+Run:
+```bash
+make backtest
+```
+This command appends results to docs/results.md including:
+
+- Rolling-origin backtest metrics (MAE, sMAPE)
+- Recommended capacity per fold
+- Planning cost per fold
+- Service-level sensitivity sweep (p70/p80/p90/p95)
