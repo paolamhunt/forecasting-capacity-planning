@@ -57,3 +57,30 @@ This command appends results to docs/results.md including:
 - Recommended capacity per fold
 - Planning cost per fold
 - Service-level sensitivity sweep (p70/p80/p90/p95)
+
+## Design Decisions
+
+### Why evaluate planning cost instead of only forecast error?
+
+In operational systems, forecast accuracy is not the end goal. 
+Decisions made from forecasts drive staffing, cost, and service levels.
+
+This project evaluates models not only on MAE and sMAPE, but on downstream planning cost under different service-level assumptions. This reflects real-world applied decision systems.
+
+### Why include a seasonal naive baseline?
+
+Seasonal naive is intentionally simple and difficult to outperform in strongly seasonal systems. It serves as a robustness baseline.
+
+### Why add a ridge regression model?
+
+Ridge regression with lag features represents a practical, explainable forecasting approach that:
+- Captures autocorrelation
+- Is computationally lightweight
+- Is easy to deploy in production systems
+
+The goal is not model complexity, but decision-quality improvement.
+
+### Why perform service-level sensitivity analysis?
+
+Service-level targets directly influence staffing cost tradeoffs. 
+Evaluating p70, p80, p90, p95 reveals how decision cost scales with conservatism in planning.
