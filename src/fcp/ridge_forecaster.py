@@ -25,7 +25,7 @@ class RidgeForecaster:
     def __init__(self, cfg: RidgeForecasterConfig) -> None:
         if not cfg.lags:
             raise ValueError("lags must not be empty")
-        if any(l <= 0 for l in cfg.lags):
+        if any(lag <= 0 for lag in cfg.lags):
             raise ValueError("all lags must be > 0")
         if any(w <= 1 for w in cfg.rolling_windows):
             raise ValueError("rolling windows must be > 1")
