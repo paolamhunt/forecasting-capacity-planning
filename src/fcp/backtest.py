@@ -1,13 +1,17 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Callable
+from typing import Callable, Protocol
 
 import pandas as pd
 
 from fcp.metrics import mae, smape
 from fcp.models import SeasonalNaiveConfig, SeasonalNaiveForecaster
 from fcp.planning import PlanningConfig, evaluate_capacity_cost, recommend_capacity
+
+class Forecaster(Protocol):
+    def fit(self, y: pd.Series) -> "Forecaster": ...
+    def predict(self, start: pd.Timestamp, horizon: int, freq: str) -> pd.Series: ...
 
 @dataclass(frozen=True)
 class BacktestConfig:
@@ -32,7 +36,7 @@ def rolling_origin_backtest(
     y: pd.Series,
     freq: str,
     cfg: BacktestConfig,
-    model_factory: Callable[[], SeasonalNaiveForecaster],
+    model_factory: Callable[[], Forecaster],
     service_level: float,
     units_per_capacity: float,
     over_capacity_cost: float,
