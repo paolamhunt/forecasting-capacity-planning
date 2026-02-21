@@ -7,6 +7,7 @@ src/fcp/io.py
 src/fcp/metrics.py
 src/fcp/models.py
 src/fcp/planning.py
+src/fcp/ridge_forecaster.py
 src/forecasting_capacity_planning.egg-info/PKG-INFO
 src/forecasting_capacity_planning.egg-info/SOURCES.txt
 src/forecasting_capacity_planning.egg-info/dependency_links.txt

@@ -159,3 +159,46 @@ How planning cost changes as we increase the service level target (higher servic
 |            0.95 |          10.38 |     3.295 |           1.92 |               19.25 |
 
 
+## Model Comparison (Forecast + Planning Cost)
+
+- Horizon: **14**
+
+- Step: **7**
+
+- Service level target: **p90**
+
+- Units per capacity: **20.0**
+
+- Costs: over=1.0, under=3.0
+
+
+### Summary
+
+| model              |   service_level |   avg_capacity |   avg_mae |   avg_sMAPE(%) |   avg_planning_cost |
+|:-------------------|----------------:|---------------:|----------:|---------------:|--------------------:|
+| seasonal_naive     |             0.9 |          10.38 |     3.295 |           1.92 |               19.25 |
+| ridge_lag_features |             0.9 |          10.5  |     0.268 |           0.15 |               20    |
+
+
+### Fold-level details
+
+| model              |   fold | cutoff     |   mae |   sMAPE(%) |   recommended_capacity |   planning_cost |
+|:-------------------|-------:|:-----------|------:|-----------:|-----------------------:|----------------:|
+| seasonal_naive     |      1 | 2024-03-30 | 3.357 |      2.044 |                     10 |              18 |
+| seasonal_naive     |      2 | 2024-04-06 | 3.286 |      1.974 |                     10 |              18 |
+| seasonal_naive     |      3 | 2024-04-13 | 3.286 |      1.933 |                     10 |              17 |
+| seasonal_naive     |      4 | 2024-04-20 | 3.071 |      1.816 |                     10 |              18 |
+| seasonal_naive     |      5 | 2024-04-27 | 3.286 |      1.905 |                     10 |              19 |
+| seasonal_naive     |      6 | 2024-05-04 | 3.429 |      1.959 |                     11 |              23 |
+| seasonal_naive     |      7 | 2024-05-11 | 3.357 |      1.895 |                     11 |              21 |
+| seasonal_naive     |      8 | 2024-05-18 | 3.286 |      1.832 |                     11 |              20 |
+| ridge_lag_features |      1 | 2024-03-30 | 0.203 |      0.118 |                     10 |              18 |
+| ridge_lag_features |      2 | 2024-04-06 | 0.341 |      0.199 |                     10 |              18 |
+| ridge_lag_features |      3 | 2024-04-13 | 0.327 |      0.195 |                     10 |              17 |
+| ridge_lag_features |      4 | 2024-04-20 | 0.226 |      0.121 |                     10 |              18 |
+| ridge_lag_features |      5 | 2024-04-27 | 0.211 |      0.119 |                     11 |              25 |
+| ridge_lag_features |      6 | 2024-05-04 | 0.334 |      0.184 |                     11 |              23 |
+| ridge_lag_features |      7 | 2024-05-11 | 0.256 |      0.139 |                     11 |              21 |
+| ridge_lag_features |      8 | 2024-05-18 | 0.245 |      0.128 |                     11 |              20 |
+
+
